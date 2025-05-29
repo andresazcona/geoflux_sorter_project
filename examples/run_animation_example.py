@@ -11,7 +11,7 @@ from geoflux_sorter import create_geoflux_animation
 
 if __name__ == "__main__":
     # Puedes cambiar 'sample_data' por la lista que quieras visualizar
-    sample_data = random.sample(range(5, 81), 20) 
+    sample_data = [random.randint(0, 100) for _ in range(100)]
     # sample_data = [50, 40, 30, 20, 10] # Ejemplo inverso
     # sample_data = [10, 20, 30, 40, 50] # Ejemplo ordenado
     
