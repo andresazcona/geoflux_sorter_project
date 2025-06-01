@@ -11,14 +11,14 @@ from geoflux_sorter import create_geoflux_animation
 
 if __name__ == "__main__":
     # Puedes cambiar 'sample_data' por la lista que quieras visualizar
-    sample_data = [random.randint(0, 100) for _ in range(100)]
+    sample_data = [random.randint(0, 100) for _ in range(50)]
     # sample_data = [50, 40, 30, 20, 10] # Ejemplo inverso
     # sample_data = [10, 20, 30, 40, 50] # Ejemplo ordenado
     
     print(f"Datos para animar: {sample_data}")
     
     # Para mostrar la animación:
-    animation_obj = create_geoflux_animation(sample_data, interval=200)
+    animation_obj = create_geoflux_animation(sample_data, interval=10)
     
     # Para guardar la animación en un archivo (descomenta y asegúrate de tener ffmpeg):
     # animation_obj = create_geoflux_animation(sample_data, interval=200, save_to_file="geoflux_sort.mp4")

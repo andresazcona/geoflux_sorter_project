@@ -31,14 +31,16 @@ GeoFlux Sorter es una implementación de un algoritmo de ordenamiento bidireccio
 
 ## Descripción del Algoritmo
 
-GeoFlux Sort es un algoritmo de ordenamiento bidireccional que combina conceptos de varios algoritmos clásicos, principalmente insertion sort, pero operando en ambas direcciones.
+GeoFlux Sort es un algoritmo de ordenamiento bidireccional que combina conceptos de varios algoritmos clásicos, pero con un enfoque innovador de ordenamiento por grupos o "migraciones", similar a cómo se mueven grupos de elementos en la naturaleza.
 
 ### Funcionamiento
 
 El algoritmo realiza múltiples pasadas sobre el arreglo, alternando entre dos tipos de operaciones:
 
-1. **Flujo Ascendente**: Los elementos pequeños "fluyen" hacia la izquierda del arreglo.
-2. **Flujo Descendente**: Los elementos grandes "fluyen" hacia la derecha del arreglo.
+1. **Flujo Ascendente**: Los grupos de elementos pequeños "migran" hacia la izquierda del arreglo.
+2. **Flujo Descendente**: Los grupos de elementos grandes "migran" hacia la derecha del arreglo.
+
+El algoritmo identifica grupos de elementos con valores similares y los mueve como unidades, ordenándolos internamente durante el proceso. Este enfoque es especialmente eficiente para datos con distribuciones no uniformes o que presentan "clusters" naturales.
 
 Este proceso continúa hasta que no se realiza ningún cambio durante un ciclo completo, lo que indica que el arreglo está completamente ordenado.
 
@@ -46,60 +48,62 @@ Este proceso continúa hasta que no se realiza ningún cambio durante un ciclo c
 
 ```
 PROCEDURE GeoFluxSort(array)
+    SI longitud(array) <= 1 ENTONCES
+        RETORNAR
+    FIN SI
 
-  n = longitud de array
+    umbral_similitud ← 5  # Ajustar según las características de los datos
+    elementos_desplazados_en_ciclo ← VERDADERO
 
-  SI n <= 1 ENTONCES RETORNAR // No necesita ordenarse
-
-  elementos_desplazados_en_ciclo = VERDADERO
-
-  MIENTRAS elementos_desplazados_en_ciclo HACER
-
-    elementos_desplazados_en_ciclo = FALSO
-
-    // --- Pasada de Flujo Ascendente (Elementos pequeños "fluyen" hacia la izquierda) ---
-    PARA i DESDE 1 HASTA n-1 HACER
-      elemento_clave = array[i]
-      
-      // Solo iniciar el "flujo" si el elemento_clave es menor que su vecino izquierdo
-      SI elemento_clave < array[i-1] ENTONCES
-        j = i - 1
-        // Desplazar elementos mayores hacia la derecha para hacer espacio
-        MIENTRAS j >= 0 Y array[j] > elemento_clave HACER
-          array[j+1] = array[j]
-          j = j - 1
+    MIENTRAS elementos_desplazados_en_ciclo HACER
+        elementos_desplazados_en_ciclo ← FALSO
+        
+        // Pasada de Flujo Ascendente (grupos hacia la izquierda)
+        i ← 1
+        MIENTRAS i < longitud(array) HACER
+            // Identificar un grupo de elementos similares
+            grupo_inicio ← i
+            grupo_fin ← i
+            
+            // Buscar el final del grupo actual
+            MIENTRAS grupo_fin + 1 < longitud(array) Y 
+                   abs(array[grupo_fin + 1] - array[grupo_inicio]) <= umbral_similitud HACER
+                grupo_fin ← grupo_fin + 1
+            FIN MIENTRAS
+            
+            // Verificar si el grupo debe moverse hacia la izquierda
+            SI grupo_inicio > 0 Y array[grupo_inicio] < array[grupo_inicio - 1] ENTONCES
+                // Extraer y ordenar el grupo
+                grupo_valores ← array[grupo_inicio:grupo_fin + 1]
+                ordenar(grupo_valores)
+                
+                // Encontrar punto de inserción para el grupo
+                j ← grupo_inicio - 1
+                MIENTRAS j >= 0 Y array[j] > grupo_valores[0] HACER
+                    j ← j - 1
+                FIN MIENTRAS
+                punto_insercion ← j + 1
+                
+                // Reorganizar el arreglo para insertar el grupo
+                [Implementación detallada omitida]
+                
+                elementos_desplazados_en_ciclo ← VERDADERO
+            FIN SI
+            
+            i ← grupo_fin + 1
         FIN MIENTRAS
-        array[j+1] = elemento_clave // Insertar el elemento_clave en su posición correcta
-        elementos_desplazados_en_ciclo = VERDADERO
-      FIN SI
-    FIN PARA
-
-    // --- Pasada de Flujo Descendente (Elementos grandes "fluyen" hacia la derecha) ---
-    PARA i DESDE n-2 HACIA ABAJO HASTA 0 HACER // Iterar desde el penúltimo hasta el primero
-      elemento_clave = array[i]
-
-      // Solo iniciar el "flujo" si el elemento_clave es mayor que su vecino derecho
-      SI elemento_clave > array[i+1] ENTONCES
-        j = i + 1
-        // Desplazar elementos menores hacia la izquierda para hacer espacio
-        MIENTRAS j < n Y array[j] < elemento_clave HACER
-          array[j-1] = array[j]
-          j = j + 1
-        FIN MIENTRAS
-        array[j-1] = elemento_clave // Insertar el elemento_clave en su posición correcta
-        elementos_desplazados_en_ciclo = VERDADERO
-      FIN SI
-    FIN PARA
-
-  FIN MIENTRAS
-
-FIN PROCEDURA
+        
+        // Pasada de Flujo Descendente (grupos hacia la derecha)
+        [Implementación similar a la pasada ascendente pero en dirección contraria]
+    FIN MIENTRAS
+FIN PROCEDURE
 ```
 
 ## Características
 
 - **Ordenamiento In-Place**: Modifica el arreglo directamente sin necesitar memoria adicional proporcional al tamaño de la entrada.
 - **Estabilidad**: No garantiza la preservación del orden relativo de elementos con valores iguales.
+- **Ordenamiento por Grupos**: Identifica y mueve grupos de elementos similares como unidades.
 - **Visualización**: Incluye herramientas para crear animaciones del proceso de ordenamiento.
 - **Análisis de Rendimiento**: Herramientas para benchmark y comparación con otros algoritmos.
 
@@ -113,7 +117,7 @@ FIN PROCEDURA
 
 1. Clona este repositorio:
 ```bash
-git clone https://github.com/usuario/geoflux_sorter_project.git
+git clone https://github.com/andresazcona/geoflux_sorter_project
 cd geoflux_sorter_project
 ```
 
@@ -202,26 +206,36 @@ El rendimiento de GeoFlux Sort varía según el tipo y tamaño de los datos:
 - **Caso promedio**: O(n²), similar a insertion sort.
 - **Peor caso**: O(n²), típicamente para arreglos invertidos.
 
+El enfoque de migración por grupos puede mejorar el rendimiento en datos que contienen naturalmente clusters de valores similares, ya que permite mover múltiples elementos en una sola operación.
+
 Las pruebas de benchmark muestran que GeoFlux Sort es menos eficiente que el `sorted()` nativo de Python para grandes conjuntos de datos, pero su principal utilidad es educativa y para visualización.
 
 Resultados representativos de benchmark:
 
-| Tamaño | GeoFlux (Random) | GeoFlux (Ordenado) | GeoFlux (Invertido) | Python (Random) | Python (Ordenado) | Python (Invertido) |
-|--------|------------------|--------------------|--------------------|----------------|-------------------|-------------------|
-| 100    | 0.000317s        | 0.000010s          | 0.000307s          | 0.000010s      | 0.000001s         | 0.000001s         |
-| 500    | 0.004750s        | 0.000055s          | 0.006307s          | 0.000036s      | 0.000003s         | 0.000003s         |
-| 1000   | 0.018730s        | 0.000100s          | 0.028682s          | 0.000079s      | 0.000005s         | 0.000005s         |
-| 2000   | 0.064139s        | 0.000186s          | 0.121810s          | 0.000165s      | 0.000009s         | 0.000010s         |
-| 5000   | 0.441502s        | 0.000503s          | 0.778414s          | 0.000437s      | 0.000023s         | 0.000025s         |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+|   Tamaño | GeoFlux (Random)   | GeoFlux (Ordenado)   | GeoFlux (Invertido)   | Python (Random)   | Python (Ordenado)   | Python (Invertido)   |
++==========+====================+======================+=======================+===================+=====================+======================+
+|      100 | 0.000288s          | 0.000021s            | 0.000129s             | 0.000008s         | 0.000001s           | 0.000000s            |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+|      500 | 0.004669s          | 0.000094s            | 0.000579s             | 0.000032s         | 0.000002s           | 0.000002s            |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+|     1000 | 0.021862s          | 0.000189s            | 0.001184s             | 0.000076s         | 0.000005s           | 0.000006s            |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+|     2000 | 0.087482s          | 0.000378s            | 0.002480s             | 0.000159s         | 0.000010s           | 0.000010s            |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+|     5000 | 0.554990s          | 0.000990s            | 0.006474s             | 0.000426s         | 0.000023s           | 0.000025s            |
++----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
 
 ## Visualización
 
 Una de las principales características de GeoFlux Sorter es su capacidad para visualizar el proceso de ordenamiento. La visualización usa matplotlib para crear una animación paso a paso, mostrando:
 
 - El estado actual del arreglo.
-- Los elementos que se están comparando.
-- Los elementos que se están moviendo.
+- Los grupos de elementos que se están identificando.
+- Los grupos que se están moviendo como unidades.
 - El progreso general del ordenamiento.
+
+La visualización es particularmente efectiva para observar cómo los grupos de elementos migran a través del arreglo, de manera similar a patrones de migración en la naturaleza.
 
 ### Personalización de visualizaciones
 
@@ -259,24 +273,26 @@ geoflux_sorter_project/
 ### Componentes Principales
 
 1. **Algoritmo de ordenamiento**
-   - `geoflux_sort`: Función principal que implementa el algoritmo.
+   - `geoflux_sort`: Función principal que implementa el algoritmo de migración por grupos.
    - `geoflux_sort_generator`: Versión generadora que expone el estado en cada paso.
 
 2. **Sistema de animación**
    - `create_geoflux_animation`: Crea y muestra/guarda animaciones del proceso.
-   - `update_plot`: Actualiza cada frame de la animación.
+   - `update_plot`: Actualiza cada frame de la animación, con soporte para visualizar grupos.
 
 ### Detalles del Algoritmo
 
-El algoritmo GeoFlux Sort combina características de:
+El algoritmo GeoFlux Sort con migración por grupos combina características de:
 - **Insertion sort**: Para la inserción de elementos en su posición correcta.
 - **Bubble sort**: En la forma de "burbujear" elementos en ambas direcciones.
+- **Bucket sort/Bin sort**: En la forma de agrupar elementos similares.
 
-La bidireccionalidad del algoritmo tiene como objetivo:
-1. Mover elementos pequeños hacia el inicio del arreglo.
-2. Mover elementos grandes hacia el final del arreglo.
+Los aspectos clave del algoritmo son:
+1. **Identificación de grupos**: Detecta elementos con valores similares usando un umbral adaptativo.
+2. **Ordenamiento de grupos**: Ordena cada grupo internamente antes de insertarlo.
+3. **Migración bidireccional**: Los grupos pequeños migran hacia la izquierda y los grandes hacia la derecha.
 
-Este enfoque puede ser más eficiente que algoritmos unidireccionales en ciertos casos, especialmente cuando hay elementos que están muy lejos de su posición final.
+Este enfoque de migración grupal puede ser más eficiente que algoritmos tradicionales en ciertos escenarios, particularmente con datos que tienen agrupaciones naturales.
 
 ## Contribuir
 
@@ -289,10 +305,11 @@ Las contribuciones son bienvenidas. Para contribuir:
 5. Abre un Pull Request.
 
 ### Áreas para mejorar
-- Optimización del rendimiento del algoritmo.
-- Mejoras en la visualización y animación.
-- Ampliación de casos de prueba.
-- Documentación adicional y ejemplos.
+- Optimización del umbral de similitud para identificar grupos de manera más efectiva.
+- Implementación de estrategias adaptativas para ajustar el umbral según las características de los datos.
+- Mejoras en la visualización de grupos y migraciones.
+- Ampliación de casos de prueba específicos para el comportamiento de grupos.
+- Documentación adicional y ejemplos sobre escenarios donde la migración por grupos es especialmente eficiente.
 
 ## Licencia
 
