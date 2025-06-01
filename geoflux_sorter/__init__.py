@@ -7,4 +7,4 @@ __all__ = [
     'geoflux_sort_generator', 
     'create_geoflux_animation'
 ]
-__version__ = '0.1.0'
+__version__ = '1.0.0'  # Actualizado a la versión 1.0.0
