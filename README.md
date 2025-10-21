@@ -1,316 +1,482 @@
 # GeoFlux Sorter
 
-GeoFlux Sorter es una implementación de un algoritmo de ordenamiento bidireccional con capacidades de visualización. Este proyecto proporciona tanto la funcionalidad de ordenamiento como herramientas para visualizar el proceso de ordenamiento paso a paso.
+<div align="center">
 
-## Tabla de Contenidos
-- [GeoFlux Sorter](#geoflux-sorter)
-  - [Tabla de Contenidos](#tabla-de-contenidos)
-  - [Descripción del Algoritmo](#descripción-del-algoritmo)
-    - [Funcionamiento](#funcionamiento)
-    - [Pseudocódigo](#pseudocódigo)
-  - [Características](#características)
-  - [Instalación](#instalación)
-    - [Prerrequisitos](#prerrequisitos)
-    - [Pasos de instalación](#pasos-de-instalación)
-  - [Uso](#uso)
-    - [Uso básico](#uso-básico)
-    - [Generador para visualización paso a paso](#generador-para-visualización-paso-a-paso)
-    - [Creación de animación](#creación-de-animación)
-  - [Ejemplos](#ejemplos)
-    - [Ejecutar ejemplos](#ejecutar-ejemplos)
-  - [Rendimiento](#rendimiento)
-  - [Visualización](#visualización)
-    - [Personalización de visualizaciones](#personalización-de-visualizaciones)
-  - [Estructura del Proyecto](#estructura-del-proyecto)
-  - [Implementación Técnica](#implementación-técnica)
-    - [Componentes Principales](#componentes-principales)
-    - [Detalles del Algoritmo](#detalles-del-algoritmo)
-  - [Contribuir](#contribuir)
-    - [Áreas para mejorar](#áreas-para-mejorar)
-  - [Licencia](#licencia)
+**Un algoritmo de ordenamiento bidireccional con migración por grupos y visualización interactiva**
 
-## Descripción del Algoritmo
+[![Python Version](https://img.shields.io/badge/python-.6%B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Version](https://img.shields.io/badge/version-.0.0-green.svg)](https://github.com/andresazcona/geoflux_sorter_project)
 
-GeoFlux Sort es un algoritmo de ordenamiento bidireccional que combina conceptos de varios algoritmos clásicos, pero con un enfoque innovador de ordenamiento por grupos o "migraciones", similar a cómo se mueven grupos de elementos en la naturaleza.
+</div>
 
-### Funcionamiento
+---
 
-El algoritmo realiza múltiples pasadas sobre el arreglo, alternando entre dos tipos de operaciones:
+##  Tabla de Contenidos
 
-1. **Flujo Ascendente**: Los grupos de elementos pequeños "migran" hacia la izquierda del arreglo.
-2. **Flujo Descendente**: Los grupos de elementos grandes "migran" hacia la derecha del arreglo.
+- [Descripción](#-descripción)
+- [Características Principales](#-características-principales)
+- [Instalación](#-instalación)
+- [Uso Rápido](#-uso-rápido)
+- [Ejemplos](#-ejemplos)
+- [El Algoritmo](#-el-algoritmo)
+- [Análisis de Rendimiento](#-análisis-de-rendimiento)
+- [Visualización](#-visualización)
+- [Estructura del Proyecto](#-estructura-del-proyecto)
+- [Contribuir](#-contribuir)
+- [Licencia](#-licencia)
 
-El algoritmo identifica grupos de elementos con valores similares y los mueve como unidades, ordenándolos internamente durante el proceso. Este enfoque es especialmente eficiente para datos con distribuciones no uniformes o que presentan "clusters" naturales.
+---
 
-Este proceso continúa hasta que no se realiza ningún cambio durante un ciclo completo, lo que indica que el arreglo está completamente ordenado.
+##  Descripción
 
-### Pseudocódigo
+**GeoFlux Sorter** es un algoritmo de ordenamiento experimental que implementa un enfoque bidireccional basado en **migración por grupos**. Inspirado en patrones de migración naturales, el algoritmo identifica clusters de elementos similares y los mueve como unidades cohesivas hacia sus posiciones correctas.
 
-```
-PROCEDURE GeoFluxSort(array)
-    SI longitud(array) <= 1 ENTONCES
-        RETORNAR
-    FIN SI
+### ¿Qué lo hace único?
 
-    umbral_similitud ← 5  # Ajustar según las características de los datos
-    elementos_desplazados_en_ciclo ← VERDADERO
+- **Ordenamiento por Grupos**: Identifica y mueve conjuntos de elementos similares como unidades, no elemento por elemento
+- **Flujo Bidireccional**: Alterna entre migrar elementos pequeños hacia la izquierda y grandes hacia la derecha
+- **Umbral Adaptativo**: Ajusta automáticamente la definición de "similitud" según las características de los datos
+- **Visualización Integrada**: Permite observar el proceso de ordenamiento en tiempo real
 
-    MIENTRAS elementos_desplazados_en_ciclo HACER
-        elementos_desplazados_en_ciclo ← FALSO
-        
-        // Pasada de Flujo Ascendente (grupos hacia la izquierda)
-        i ← 1
-        MIENTRAS i < longitud(array) HACER
-            // Identificar un grupo de elementos similares
-            grupo_inicio ← i
-            grupo_fin ← i
-            
-            // Buscar el final del grupo actual
-            MIENTRAS grupo_fin + 1 < longitud(array) Y 
-                   abs(array[grupo_fin + 1] - array[grupo_inicio]) <= umbral_similitud HACER
-                grupo_fin ← grupo_fin + 1
-            FIN MIENTRAS
-            
-            // Verificar si el grupo debe moverse hacia la izquierda
-            SI grupo_inicio > 0 Y array[grupo_inicio] < array[grupo_inicio - 1] ENTONCES
-                // Extraer y ordenar el grupo
-                grupo_valores ← array[grupo_inicio:grupo_fin + 1]
-                ordenar(grupo_valores)
-                
-                // Encontrar punto de inserción para el grupo
-                j ← grupo_inicio - 1
-                MIENTRAS j >= 0 Y array[j] > grupo_valores[0] HACER
-                    j ← j - 1
-                FIN MIENTRAS
-                punto_insercion ← j + 1
-                
-                // Reorganizar el arreglo para insertar el grupo
-                [Implementación detallada omitida]
-                
-                elementos_desplazados_en_ciclo ← VERDADERO
-            FIN SI
-            
-            i ← grupo_fin + 1
-        FIN MIENTRAS
-        
-        // Pasada de Flujo Descendente (grupos hacia la derecha)
-        [Implementación similar a la pasada ascendente pero en dirección contraria]
-    FIN MIENTRAS
-FIN PROCEDURE
-```
+---
 
-## Características
+## ✨ Características Principales
 
-- **Ordenamiento In-Place**: Modifica el arreglo directamente sin necesitar memoria adicional proporcional al tamaño de la entrada.
-- **Estabilidad**: No garantiza la preservación del orden relativo de elementos con valores iguales.
-- **Ordenamiento por Grupos**: Identifica y mueve grupos de elementos similares como unidades.
-- **Visualización**: Incluye herramientas para crear animaciones del proceso de ordenamiento.
-- **Análisis de Rendimiento**: Herramientas para benchmark y comparación con otros algoritmos.
+| Característica | Descripción |
+|----------------|-------------|
+|  **Ordenamiento In-Place** | Modifica el arreglo directamente, sin memoria adicional |
+|  **Visualización Interactiva** | Animaciones paso a paso del proceso de ordenamiento |
+| ⚡ **Optimizaciones Inteligentes** | Detección de secciones ordenadas y casos base |
+|  **Suite de Pruebas** | Tests unitarios y benchmarks completos |
+|  **Análisis de Rendimiento** | Comparativas con algoritmos estándar de Python |
+|  **Personalizable** | Control sobre velocidad y estilo de animaciones |
 
-## Instalación
+---
+
+##  Instalación
 
 ### Prerrequisitos
-- Python 3.6 o superior
-- pip (gestor de paquetes de Python)
 
-### Pasos de instalación
+- **Python .6+** instalado en tu sistema
+- **pip** (gestor de paquetes de Python)
 
-1. Clona este repositorio:
+### Pasos de Instalación
+
+️⃣ **Clona el repositorio**
 ```bash
-git clone https://github.com/andresazcona/geoflux_sorter_project
+git clone https://github.com/andresazcona/geoflux_sorter_project.git
 cd geoflux_sorter_project
 ```
 
-2. Crea un entorno virtual (recomendado):
+️⃣ **Crea un entorno virtual** (recomendado)
 ```bash
 python -m venv venv
 ```
 
-3. Activa el entorno virtual:
-   - En Windows (CMD): `venv\Scripts\activate.bat`
-   - En Windows (PowerShell): `.\venv\Scripts\Activate.ps1`
-   - En Unix/MacOS: `source venv/bin/activate`
+️⃣ **Activa el entorno virtual**
+```bash
+# Windows (PowerShell)
+.\venv\Scripts\Activate.ps
 
-4. Instala las dependencias:
+# Windows (CMD)
+venv\Scripts\activate.bat
+
+# Unix/MacOS
+source venv/bin/activate
+```
+
+️⃣ **Instala las dependencias**
 ```bash
 pip install -r requirements.txt
 ```
 
-## Uso
+✅ ¡Listo para usar!
 
-### Uso básico
+---
+
+##  Uso Rápido
+
+### Ordenamiento Básico
 
 ```python
 from geoflux_sorter import geoflux_sort
 
-# Crear una lista para ordenar
-my_list = [5, 2, 9, 1, 5, 6]
+# Crear una lista desordenada
+datos = [6, , 5, , , , 90]
 
-# Ordenar la lista (in-place)
-geoflux_sort(my_list)
+# Ordenar in-place
+geoflux_sort(datos)
 
-print(my_list)  # Resultado: [1, 2, 5, 5, 6, 9]
+print(datos)  # [, , , 5, , 6, 90]
 ```
 
-### Generador para visualización paso a paso
+### Visualización Paso a Paso
 
 ```python
 from geoflux_sorter import geoflux_sort_generator
 
-# Crear una lista para ordenar
-my_list = [5, 2, 9, 1, 5, 6]
+datos = [5, , 9, , 5, 6]
 
-# Obtener un generador para seguir el proceso paso a paso
-for state in geoflux_sort_generator(my_list):
-    print(state['array'], f"- {state['status']}")
+# Observar cada paso del algoritmo
+for paso in geoflux_sort_generator(datos):
+    print(f"{paso['array']} - {paso['status']}")
 ```
 
-### Creación de animación
+### Crear Animación
 
 ```python
 from geoflux_sorter import create_geoflux_animation
+import random
 
-# Crear una lista para ordenar
-my_list = [5, 2, 9, 1, 5, 6]
+# Generar datos aleatorios
+datos = random.sample(range(, 5), 0)
 
-# Crear y mostrar una animación del proceso de ordenamiento
-animation = create_geoflux_animation(my_list, interval=200)
+# Crear y mostrar animación
+animacion = create_geoflux_animation(datos, interval=00)
 ```
 
-## Ejemplos
+---
 
-El proyecto incluye ejemplos prácticos en la carpeta `examples/`:
+##  Ejemplos
 
-- `run_sort_example.py`: Ejemplo básico de uso del algoritmo.
-- `run_animation_example.py`: Ejemplo de la visualización del algoritmo.
-- `benchmark_sort.py`: Comparativa de rendimiento con otros algoritmos.
+El proyecto incluye ejemplos listos para ejecutar en la carpeta `examples/`:
 
-### Ejecutar ejemplos
+| Archivo | Descripción |
+|---------|-------------|
+| `run_sort_example.py` | Demuestra el ordenamiento con varios casos de prueba |
+| `run_animation_example.py` | Crea una visualización animada del algoritmo |
+| `benchmark_sort.py` | Compara rendimiento con otros algoritmos |
+
+### Ejecutar Ejemplos
 
 ```bash
-# Ejemplo básico de ordenamiento
+# Ejemplo básico
 python examples/run_sort_example.py
 
-# Visualización del algoritmo
+# Visualización animada
 python examples/run_animation_example.py
 
 # Benchmark de rendimiento
 python examples/benchmark_sort.py
 ```
 
-## Rendimiento
+---
 
-El rendimiento de GeoFlux Sort varía según el tipo y tamaño de los datos:
+##  El Algoritmo
 
-- **Mejor caso**: O(n) para arreglos ya ordenados.
-- **Caso promedio**: O(n²), similar a insertion sort.
-- **Peor caso**: O(n²), típicamente para arreglos invertidos.
+### Cómo Funciona
 
-El enfoque de migración por grupos puede mejorar el rendimiento en datos que contienen naturalmente clusters de valores similares, ya que permite mover múltiples elementos en una sola operación.
+GeoFlux Sort implementa un proceso de ordenamiento bidireccional inspirado en migraciones naturales:
 
-Las pruebas de benchmark muestran que GeoFlux Sort es menos eficiente que el `sorted()` nativo de Python para grandes conjuntos de datos, pero su principal utilidad es educativa y para visualización.
+####  Ciclo Principal
 
-Resultados representativos de benchmark:
+El algoritmo realiza ciclos completos hasta que no se requieren más cambios:
 
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
-|   Tamaño | GeoFlux (Random)   | GeoFlux (Ordenado)   | GeoFlux (Invertido)   | Python (Random)   | Python (Ordenado)   | Python (Invertido)   |
-+==========+====================+======================+=======================+===================+=====================+======================+
-|      100 | 0.000288s          | 0.000021s            | 0.000129s             | 0.000008s         | 0.000001s           | 0.000000s            |
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
-|      500 | 0.004669s          | 0.000094s            | 0.000579s             | 0.000032s         | 0.000002s           | 0.000002s            |
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
-|     1000 | 0.021862s          | 0.000189s            | 0.001184s             | 0.000076s         | 0.000005s           | 0.000006s            |
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
-|     2000 | 0.087482s          | 0.000378s            | 0.002480s             | 0.000159s         | 0.000010s           | 0.000010s            |
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
-|     5000 | 0.554990s          | 0.000990s            | 0.006474s             | 0.000426s         | 0.000023s           | 0.000025s            |
-+----------+--------------------+----------------------+-----------------------+-------------------+---------------------+----------------------+
+. **Detección de Grupos**: Identifica clusters de elementos con valores similares
+. **Flujo Ascendente** ⬅️: Migra grupos de valores pequeños hacia la izquierda
+. **Flujo Descendente** ➡️: Migra grupos de valores grandes hacia la derecha
+. **Repetir**: Continúa hasta que el arreglo esté completamente ordenado
 
-## Visualización
+####  Optimizaciones Clave
 
-Una de las principales características de GeoFlux Sorter es su capacidad para visualizar el proceso de ordenamiento. La visualización usa matplotlib para crear una animación paso a paso, mostrando:
+- ✅ **Umbral Adaptativo**: Calcula automáticamente el umbral de similitud (5% del rango)
+- ✅ **Detección Temprana**: Identifica arreglos ya ordenados en O(n)
+- ✅ **Insertion Sort para Casos Pequeños**: Usa algoritmo más eficiente para n ≤ 0
+- ✅ **Salto de Secciones Ordenadas**: Evita procesar segmentos ya ordenados
+- ✅ **Límite de Tamaño de Grupo**: Previene grupos excesivamente grandes
 
-- El estado actual del arreglo.
-- Los grupos de elementos que se están identificando.
-- Los grupos que se están moviendo como unidades.
-- El progreso general del ordenamiento.
+### Pseudocódigo
 
-La visualización es particularmente efectiva para observar cómo los grupos de elementos migran a través del arreglo, de manera similar a patrones de migración en la naturaleza.
+```plaintext
+FUNCIÓN GeoFluxSort(arreglo):
+    n ← longitud(arreglo)
+    
+    // Casos base y optimizaciones
+    SI n ≤  ENTONCES RETORNAR
+    SI arreglo_está_ordenado(arreglo) ENTONCES RETORNAR
+    SI n ≤ 0 ENTONCES insertion_sort(arreglo); RETORNAR
+    
+    // Calcular umbral adaptativo
+    rango ← máximo(arreglo) - mínimo(arreglo)
+    umbral_similitud ← rango × 0.05
+    
+    elementos_movidos ← VERDADERO
+    
+    MIENTRAS elementos_movidos HACER:
+        elementos_movidos ← FALSO
+        
+        // Detectar secciones ya ordenadas
+        inicio_ordenado ← detectar_inicio_ordenado(arreglo)
+        fin_ordenado ← detectar_fin_ordenado(arreglo)
+        
+        // === FLUJO ASCENDENTE (⬅️) ===
+        i ← inicio_ordenado + 
+        MIENTRAS i < fin_ordenado HACER:
+            // Identificar grupo de elementos similares
+            grupo ← identificar_grupo(arreglo, i, umbral_similitud)
+            
+            // Si el grupo debe migrar hacia la izquierda
+            SI arreglo[grupo.inicio] < arreglo[grupo.inicio - ] ENTONCES:
+                valores_grupo ← ordenar(arreglo[grupo.inicio:grupo.fin])
+                punto_inserción ← encontrar_punto_inserción(arreglo, valores_grupo[0])
+                
+                // Mover grupo a su nueva posición
+                insertar_grupo(arreglo, valores_grupo, punto_inserción)
+                elementos_movidos ← VERDADERO
+            FIN SI
+            
+            i ← grupo.fin + 
+        FIN MIENTRAS
+        
+        // === FLUJO DESCENDENTE (➡️) ===
+        i ← fin_ordenado - 
+        MIENTRAS i > inicio_ordenado HACER:
+            // Identificar grupo de elementos similares
+            grupo ← identificar_grupo_reverso(arreglo, i, umbral_similitud)
+            
+            // Si el grupo debe migrar hacia la derecha
+            SI arreglo[grupo.inicio] > arreglo[grupo.inicio + ] ENTONCES:
+                valores_grupo ← ordenar(arreglo[grupo.inicio:grupo.fin])
+                punto_inserción ← encontrar_punto_inserción_derecha(arreglo, valores_grupo[-])
+                
+                // Mover grupo a su nueva posición
+                insertar_grupo(arreglo, valores_grupo, punto_inserción)
+                elementos_movidos ← VERDADERO
+            FIN SI
+            
+            i ← grupo.inicio - 
+        FIN MIENTRAS
+    FIN MIENTRAS
+FIN FUNCIÓN
+```
 
-### Personalización de visualizaciones
+### Comparación con Otros Algoritmos
 
-La función `create_geoflux_animation` permite personalizar varios aspectos:
+GeoFlux Sort combina características de varios algoritmos clásicos:
+
+| Algoritmo | Influencia en GeoFlux |
+|-----------|----------------------|
+| **Insertion Sort** | Inserción de grupos en posiciones correctas |
+| **Bubble Sort** | Flujo bidireccional de elementos |
+| **Cocktail Sort** | Pasadas alternadas en ambas direcciones |
+| **Bucket Sort** | Agrupación de elementos similares |
+
+**Ventaja Principal**: Eficiencia mejorada en datos con clusters naturales de valores similares.
+
+---
+
+##  Análisis de Rendimiento
+
+### Complejidad Temporal
+
+| Escenario | Complejidad | Descripción |
+|-----------|-------------|-------------|
+| **Mejor Caso** | O(n) | Arreglo ya ordenado |
+| **Caso Promedio** | O(n²) | Datos aleatorios |
+| **Peor Caso** | O(n²) | Arreglo en orden inverso |
+
+### Complejidad Espacial
+
+- **Espacio Auxiliar**: O() - Ordenamiento in-place
+- **Espacio Total**: O(n) - Tamaño del arreglo de entrada
+
+### Resultados de Benchmark
+
+Comparativa de rendimiento con el `sorted()` nativo de Python:
+
+```
+┌─────────┬──────────────────┬────────────────────┬──────────────────────┐
+│ Tamaño  │ GeoFlux (Random) │ GeoFlux (Ordenado) │ Python sorted()      │
+├─────────┼──────────────────┼────────────────────┼──────────────────────┤
+│    00  │   0.00088s      │   0.0000s        │   0.000008s          │
+│    500  │   0.00669s      │   0.00009s        │   0.0000s          │
+│  ,000  │   0.086s      │   0.00089s        │   0.000076s          │
+│  ,000  │   0.0878s      │   0.00078s        │   0.00059s          │
+│  5,000  │   0.55990s      │   0.000990s        │   0.0006s          │
+└─────────┴──────────────────┴────────────────────┴──────────────────────┘
+```
+
+###  Observaciones
+
+- ✅ **Excelente** para arreglos pequeños (n < 00) o parcialmente ordenados
+- ⚠️ **Menos eficiente** que TimSort (Python nativo) para grandes conjuntos aleatorios
+-  **Valor educativo** significativo para entender algoritmos de ordenamiento
+-  **Ideal** para visualización debido a su naturaleza iterativa y visual
+
+---
+
+##  Visualización
+
+Una de las características más destacadas de GeoFlux Sorter es su capacidad de visualización en tiempo real del proceso de ordenamiento.
+
+###  Características de Visualización
+
+La animación muestra:
+
+-  **Estado del Arreglo**: Barras que representan cada elemento
+-  **Grupos Identificados**: Clusters de elementos similares resaltados
+-  **Migración de Grupos**: Movimiento de grupos completos
+-  **Progreso**: Indicador del estado del ordenamiento
+
+### Personalización
 
 ```python
+from geoflux_sorter import create_geoflux_animation
+
 create_geoflux_animation(
-    initial_data,     # Datos a ordenar
-    interval=300,     # Intervalo entre frames (ms)
-    save_to_file=None # Guardar como archivo (requiere ffmpeg)
+    initial_data,           # Lista de datos a ordenar
+    interval=00,           # Intervalo entre frames (ms)
+    save_to_file=None       # Ruta para guardar (requiere ffmpeg)
 )
 ```
 
-## Estructura del Proyecto
+### Ejemplo de Visualización
+
+```python
+import random
+from geoflux_sorter import create_geoflux_animation
+
+# Generar datos aleatorios
+datos = random.sample(range(, 0), 0)
+
+# Crear animación con actualización cada 00ms
+animacion = create_geoflux_animation(datos, interval=00)
+
+# La animación se mostrará automáticamente
+```
+
+**Nota**: Para guardar animaciones como video se requiere `ffmpeg` instalado en el sistema.
+
+---
+
+##  Estructura del Proyecto
 
 ```
 geoflux_sorter_project/
-├── geoflux_sorter/         # Paquete principal
-│   ├── __init__.py         # Exporta funciones principales
-│   ├── algorithm.py        # Implementación del algoritmo
-│   └── animator.py         # Visualización y animación
-├── tests/                  # Tests unitarios
-│   ├── __init__.py
-│   └── test_algorithm.py   # Tests del algoritmo
-├── examples/               # Ejemplos de uso
-│   ├── run_sort_example.py
-│   ├── run_animation_example.py
-│   └── benchmark_sort.py
-├── requirements.txt        # Dependencias
-└── README.md               # Este archivo
+│
+├──  geoflux_sorter/          # Paquete principal
+│   ├── __init__.py             # Exporta la API pública
+│   ├── algorithm.py            # Implementación del algoritmo GeoFlux Sort
+│   └── animator.py             # Sistema de visualización y animación
+│
+├──  examples/                # Ejemplos de uso
+│   ├── run_sort_example.py     # Demostración básica del algoritmo
+│   ├── run_animation_example.py # Ejemplo de visualización
+│   └── benchmark_sort.py       # Comparativa de rendimiento
+│
+├──  tests/                   # Suite de pruebas
+│   ├── test_algorithm.py       # Tests unitarios del algoritmo
+│   ├── benchmark_compare.py    # Benchmarks comparativos
+│   └── bottleneck_test.py      # Análisis de cuellos de botella
+│
+├──  README.md                # Esta documentación
+├──  requirements.txt         # Dependencias del proyecto
+└──  .gitignore              # Archivos ignorados por Git
 ```
 
-## Implementación Técnica
+### Módulos Principales
 
-### Componentes Principales
+#### `geoflux_sorter/algorithm.py`
 
-1. **Algoritmo de ordenamiento**
-   - `geoflux_sort`: Función principal que implementa el algoritmo de migración por grupos.
-   - `geoflux_sort_generator`: Versión generadora que expone el estado en cada paso.
+Contiene la implementación del algoritmo:
 
-2. **Sistema de animación**
-   - `create_geoflux_animation`: Crea y muestra/guarda animaciones del proceso.
-   - `update_plot`: Actualiza cada frame de la animación, con soporte para visualizar grupos.
+- `geoflux_sort(arr)`: Función principal de ordenamiento
+- `geoflux_sort_generator(arr)`: Generador para seguimiento paso a paso
 
-### Detalles del Algoritmo
+#### `geoflux_sorter/animator.py`
 
-El algoritmo GeoFlux Sort con migración por grupos combina características de:
-- **Insertion sort**: Para la inserción de elementos en su posición correcta.
-- **Bubble sort**: En la forma de "burbujear" elementos en ambas direcciones.
-- **Bucket sort/Bin sort**: En la forma de agrupar elementos similares.
+Maneja la visualización:
 
-Los aspectos clave del algoritmo son:
-1. **Identificación de grupos**: Detecta elementos con valores similares usando un umbral adaptativo.
-2. **Ordenamiento de grupos**: Ordena cada grupo internamente antes de insertarlo.
-3. **Migración bidireccional**: Los grupos pequeños migran hacia la izquierda y los grandes hacia la derecha.
+- `create_geoflux_animation(data, interval, save_to_file)`: Crea animaciones
+- Soporte para exportar a video (con ffmpeg)
 
-Este enfoque de migración grupal puede ser más eficiente que algoritmos tradicionales en ciertos escenarios, particularmente con datos que tienen agrupaciones naturales.
+---
 
-## Contribuir
+##  Contribuir
 
-Las contribuciones son bienvenidas. Para contribuir:
+¡Las contribuciones son bienvenidas! Este proyecto está abierto a mejoras y nuevas ideas.
 
-1. Haz fork del proyecto.
-2. Crea una rama para tu característica (`git checkout -b feature/amazing-feature`).
-3. Realiza tus cambios y haz commit (`git commit -m 'Add amazing feature'`).
-4. Sube tu rama (`git push origin feature/amazing-feature`).
-5. Abre un Pull Request.
+### Cómo Contribuir
 
-### Áreas para mejorar
-- Optimización del umbral de similitud para identificar grupos de manera más efectiva.
-- Implementación de estrategias adaptativas para ajustar el umbral según las características de los datos.
-- Mejoras en la visualización de grupos y migraciones.
-- Ampliación de casos de prueba específicos para el comportamiento de grupos.
-- Documentación adicional y ejemplos sobre escenarios donde la migración por grupos es especialmente eficiente.
+.  **Fork** el proyecto
+.  **Crea una rama** para tu feature
+   ```bash
+   git checkout -b feature/nueva-caracteristica
+   ```
+. ✍️ **Realiza tus cambios** y haz commit
+   ```bash
+   git commit -m 'Añadir nueva característica'
+   ```
+.  **Push** a tu rama
+   ```bash
+   git push origin feature/nueva-caracteristica
+   ```
+5.  **Abre un Pull Request**
 
-## Licencia
+###  Áreas de Mejora
 
-Este proyecto está licenciado bajo [MIT License](LICENSE).
+Contribuciones sugeridas:
+
+- [ ] **Optimización del Umbral**: Algoritmos más sofisticados para determinar similitud
+- [ ] **Análisis de Datos**: Caracterización automática del tipo de distribución
+- [ ] **Visualización Mejorada**: Más estilos y opciones de renderizado
+- [ ] **Tests Adicionales**: Casos edge y propiedades matemáticas
+- [ ] **Documentación**: Más ejemplos y tutoriales
+- [ ] **Paralelización**: Implementación concurrente para grandes datasets
+- [ ] **Implementación en Otros Lenguajes**: C++, Rust, JavaScript, etc.
+
+###  Código de Conducta
+
+- Se respetuoso y constructivo
+- Escribe código limpio y documentado
+- Incluye tests para nuevas funcionalidades
+- Actualiza la documentación según sea necesario
+
+---
+
+##  Licencia
+
+Este proyecto está licenciado bajo la **MIT License**.
+
+```
+MIT License
+
+Copyright (c) 05 Andrés Azcona
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+---
+
+##  Agradecimientos
+
+- Inspirado en patrones naturales de migración
+- Construido con Python y Matplotlib
+- Gracias a la comunidad de código abierto
+
+---
+
+<div align="center">
+
+**⭐ Si este proyecto te resulta útil, considera darle una estrella en GitHub**
+
+Desarrollado con ❤️ por [Andrés Azcona](https://github.com/andresazcona)
+
+</div>
