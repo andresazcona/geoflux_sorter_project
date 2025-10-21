@@ -4,7 +4,6 @@
 
 **Un algoritmo de ordenamiento bidireccional con migración por grupos y visualización interactiva**
 
-[![Python Version](https://img.shields.io/badge/python-.6%B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Version](https://img.shields.io/badge/version-.0.0-green.svg)](https://github.com/andresazcona/geoflux_sorter_project)
 
