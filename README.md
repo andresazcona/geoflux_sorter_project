@@ -40,6 +40,12 @@
 - **Visualización Integrada**: Permite observar el proceso de ordenamiento en tiempo real
 
 ---
+##  Publicaciones
+
+- Artículo técnico: "GeoFlux Sort: A bidirectional adaptive algorithm for natural data ordering" — Medium.
+  Enlace: https://medium.com/@andresazconagla/geoflux-sort-a-bidirectional-adaptive-algorithm-for-natural-data-ordering-5dc8d625e0fd
+
+---
 
 ## ✨ Características Principales
 
