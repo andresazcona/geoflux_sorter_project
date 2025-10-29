@@ -2,87 +2,88 @@
 
 <div align="center">
 
-**Un algoritmo de ordenamiento bidireccional con migración por grupos y visualización interactiva**
+**A bidirectional sorting algorithm with group migration and interactive visualization**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Version](https://img.shields.io/badge/version-.0.0-green.svg)](https://github.com/andresazcona/geoflux_sorter_project)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/andresazcona/geoflux_sorter_project)
 
 </div>
 
 ---
 
-##  Tabla de Contenidos
+## Table of Contents
 
-- [Descripción](#-descripción)
-- [Características Principales](#-características-principales)
-- [Instalación](#-instalación)
-- [Uso Rápido](#-uso-rápido)
-- [Ejemplos](#-ejemplos)
-- [El Algoritmo](#-el-algoritmo)
-- [Análisis de Rendimiento](#-análisis-de-rendimiento)
-- [Visualización](#-visualización)
-- [Estructura del Proyecto](#-estructura-del-proyecto)
-- [Contribuir](#-contribuir)
-- [Licencia](#-licencia)
-
----
-
-##  Descripción
-
-**GeoFlux Sorter** es un algoritmo de ordenamiento experimental que implementa un enfoque bidireccional basado en **migración por grupos**. Inspirado en patrones de migración naturales, el algoritmo identifica clusters de elementos similares y los mueve como unidades cohesivas hacia sus posiciones correctas.
-
-### ¿Qué lo hace único?
-
-- **Ordenamiento por Grupos**: Identifica y mueve conjuntos de elementos similares como unidades, no elemento por elemento
-- **Flujo Bidireccional**: Alterna entre migrar elementos pequeños hacia la izquierda y grandes hacia la derecha
-- **Umbral Adaptativo**: Ajusta automáticamente la definición de "similitud" según las características de los datos
-- **Visualización Integrada**: Permite observar el proceso de ordenamiento en tiempo real
-
----
-##  Publicaciones
-
-- Artículo técnico: "GeoFlux Sort: A bidirectional adaptive algorithm for natural data ordering" — Medium.
-  Enlace: https://medium.com/@andresazconagla/geoflux-sort-a-bidirectional-adaptive-algorithm-for-natural-data-ordering-5dc8d625e0fd
+- [Description](#description)
+- [Publications](#publications)
+- [Key Features](#key-features)
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Examples](#examples)
+- [The Algorithm](#the-algorithm)
+- [Performance Analysis](#performance-analysis)
+- [Visualization](#visualization)
+- [Project Structure](#project-structure)
+- [Contributing](#contributing)
+- [License](#license)
 
 ---
 
-## ✨ Características Principales
+## Description
 
-| Característica | Descripción |
-|----------------|-------------|
-|  **Ordenamiento In-Place** | Modifica el arreglo directamente, sin memoria adicional |
-|  **Visualización Interactiva** | Animaciones paso a paso del proceso de ordenamiento |
-| ⚡ **Optimizaciones Inteligentes** | Detección de secciones ordenadas y casos base |
-|  **Suite de Pruebas** | Tests unitarios y benchmarks completos |
-|  **Análisis de Rendimiento** | Comparativas con algoritmos estándar de Python |
-|  **Personalizable** | Control sobre velocidad y estilo de animaciones |
+**GeoFlux Sorter** is an experimental sorting algorithm that implements a bidirectional approach based on **group migration**. Inspired by natural migration patterns, the algorithm identifies clusters of similar elements and moves them as cohesive units toward their correct positions.
+
+### What Makes It Unique?
+
+- **Group Sorting**: Identifies and moves sets of similar elements as units, not element by element
+- **Bidirectional Flow**: Alternates between migrating small elements to the left and large elements to the right
+- **Adaptive Threshold**: Automatically adjusts the definition of "similarity" based on data characteristics
+- **Integrated Visualization**: Allows observation of the sorting process in real-time
+
+---
+## Publications
+
+- Technical article: "GeoFlux Sort: A bidirectional adaptive algorithm for natural data ordering" — Medium.
+  Link: https://medium.com/@andresazcona/geoflux-sort-a-bidirectional-adaptive-algorithm-for-natural-data-ordering-5dc8d625e0fd
 
 ---
 
-##  Instalación
+## Key Features
 
-### Prerrequisitos
+| Feature | Description |
+|---------|-------------|
+| **In-Place Sorting** | Modifies the array directly, without additional memory |
+| **Interactive Visualization** | Step-by-step animations of the sorting process |
+| **Smart Optimizations** | Detection of sorted sections and base cases |
+| **Test Suite** | Complete unit tests and benchmarks |
+| **Performance Analysis** | Comparisons with Python standard algorithms |
+| **Customizable** | Control over animation speed and style |
 
-- **Python .6+** instalado en tu sistema
-- **pip** (gestor de paquetes de Python)
+---
 
-### Pasos de Instalación
+## Installation
 
-️⃣ **Clona el repositorio**
+### Prerequisites
+
+- **Python 3.6+** installed on your system
+- **pip** (Python package manager)
+
+### Installation Steps
+
+**1. Clone the repository**
 ```bash
 git clone https://github.com/andresazcona/geoflux_sorter_project.git
 cd geoflux_sorter_project
 ```
 
-️⃣ **Crea un entorno virtual** (recomendado)
+**2. Create a virtual environment** (recommended)
 ```bash
 python -m venv venv
 ```
 
-️⃣ **Activa el entorno virtual**
+**3. Activate the virtual environment**
 ```bash
 # Windows (PowerShell)
-.\venv\Scripts\Activate.ps
+.\venv\Scripts\Activate.ps1
 
 # Windows (CMD)
 venv\Scripts\activate.bat
@@ -91,363 +92,363 @@ venv\Scripts\activate.bat
 source venv/bin/activate
 ```
 
-️⃣ **Instala las dependencias**
+**4. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-✅ ¡Listo para usar!
+Ready to use!
 
 ---
 
-##  Uso Rápido
+## Quick Start
 
-### Ordenamiento Básico
+### Basic Sorting
 
 ```python
 from geoflux_sorter import geoflux_sort
 
-# Crear una lista desordenada
-datos = [6, , 5, , , , 90]
+# Create an unsorted list
+data = [64, 34, 25, 12, 22, 11, 90]
 
-# Ordenar in-place
-geoflux_sort(datos)
+# Sort in-place
+geoflux_sort(data)
 
-print(datos)  # [, , , 5, , 6, 90]
+print(data)  # [11, 12, 22, 25, 34, 64, 90]
 ```
 
-### Visualización Paso a Paso
+### Step-by-Step Visualization
 
 ```python
 from geoflux_sorter import geoflux_sort_generator
 
-datos = [5, , 9, , 5, 6]
+data = [5, 2, 9, 1, 5, 6]
 
-# Observar cada paso del algoritmo
-for paso in geoflux_sort_generator(datos):
-    print(f"{paso['array']} - {paso['status']}")
+# Observe each step of the algorithm
+for step in geoflux_sort_generator(data):
+    print(f"{step['array']} - {step['status']}")
 ```
 
-### Crear Animación
+### Create Animation
 
 ```python
 from geoflux_sorter import create_geoflux_animation
 import random
 
-# Generar datos aleatorios
-datos = random.sample(range(, 5), 0)
+# Generate random data
+data = random.sample(range(1, 51), 20)
 
-# Crear y mostrar animación
-animacion = create_geoflux_animation(datos, interval=00)
+# Create and display animation
+animation = create_geoflux_animation(data, interval=200)
 ```
 
 ---
 
-##  Ejemplos
+## Examples
 
-El proyecto incluye ejemplos listos para ejecutar en la carpeta `examples/`:
+The project includes ready-to-run examples in the `examples/` folder:
 
-| Archivo | Descripción |
-|---------|-------------|
-| `run_sort_example.py` | Demuestra el ordenamiento con varios casos de prueba |
-| `run_animation_example.py` | Crea una visualización animada del algoritmo |
-| `benchmark_sort.py` | Compara rendimiento con otros algoritmos |
+| File | Description |
+|------|-------------|
+| `run_sort_example.py` | Demonstrates sorting with various test cases |
+| `run_animation_example.py` | Creates an animated visualization of the algorithm |
+| `benchmark_sort.py` | Compares performance with other algorithms |
 
-### Ejecutar Ejemplos
+### Running Examples
 
 ```bash
-# Ejemplo básico
+# Basic example
 python examples/run_sort_example.py
 
-# Visualización animada
+# Animated visualization
 python examples/run_animation_example.py
 
-# Benchmark de rendimiento
+# Performance benchmark
 python examples/benchmark_sort.py
 ```
 
 ---
 
-##  El Algoritmo
+## The Algorithm
 
-### Cómo Funciona
+### How It Works
 
-GeoFlux Sort implementa un proceso de ordenamiento bidireccional inspirado en migraciones naturales:
+GeoFlux Sort implements a bidirectional sorting process inspired by natural migrations:
 
-####  Ciclo Principal
+#### Main Cycle
 
-El algoritmo realiza ciclos completos hasta que no se requieren más cambios:
+The algorithm performs complete cycles until no more changes are required:
 
-. **Detección de Grupos**: Identifica clusters de elementos con valores similares
-. **Flujo Ascendente** ⬅️: Migra grupos de valores pequeños hacia la izquierda
-. **Flujo Descendente** ➡️: Migra grupos de valores grandes hacia la derecha
-. **Repetir**: Continúa hasta que el arreglo esté completamente ordenado
+1. **Group Detection**: Identifies clusters of elements with similar values
+2. **Ascending Flow**: Migrates groups of small values to the left
+3. **Descending Flow**: Migrates groups of large values to the right
+4. **Repeat**: Continues until the array is completely sorted
 
-####  Optimizaciones Clave
+#### Key Optimizations
 
-- ✅ **Umbral Adaptativo**: Calcula automáticamente el umbral de similitud (5% del rango)
-- ✅ **Detección Temprana**: Identifica arreglos ya ordenados en O(n)
-- ✅ **Insertion Sort para Casos Pequeños**: Usa algoritmo más eficiente para n ≤ 0
-- ✅ **Salto de Secciones Ordenadas**: Evita procesar segmentos ya ordenados
-- ✅ **Límite de Tamaño de Grupo**: Previene grupos excesivamente grandes
+- **Adaptive Threshold**: Automatically calculates the similarity threshold (5% of range)
+- **Early Detection**: Identifies already sorted arrays in O(n)
+- **Insertion Sort for Small Cases**: Uses more efficient algorithm for n ≤ 20
+- **Skip Sorted Sections**: Avoids processing already sorted segments
+- **Group Size Limit**: Prevents excessively large groups
 
-### Pseudocódigo
+### Pseudocode
 
 ```plaintext
-FUNCIÓN GeoFluxSort(arreglo):
-    n ← longitud(arreglo)
+FUNCTION GeoFluxSort(array):
+    n ← length(array)
     
-    // Casos base y optimizaciones
-    SI n ≤  ENTONCES RETORNAR
-    SI arreglo_está_ordenado(arreglo) ENTONCES RETORNAR
-    SI n ≤ 0 ENTONCES insertion_sort(arreglo); RETORNAR
+    // Base cases and optimizations
+    IF n ≤ 1 THEN RETURN
+    IF array_is_sorted(array) THEN RETURN
+    IF n ≤ 20 THEN insertion_sort(array); RETURN
     
-    // Calcular umbral adaptativo
-    rango ← máximo(arreglo) - mínimo(arreglo)
-    umbral_similitud ← rango × 0.05
+    // Calculate adaptive threshold
+    range ← maximum(array) - minimum(array)
+    similarity_threshold ← range × 0.05
     
-    elementos_movidos ← VERDADERO
+    elements_moved ← TRUE
     
-    MIENTRAS elementos_movidos HACER:
-        elementos_movidos ← FALSO
+    WHILE elements_moved DO:
+        elements_moved ← FALSE
         
-        // Detectar secciones ya ordenadas
-        inicio_ordenado ← detectar_inicio_ordenado(arreglo)
-        fin_ordenado ← detectar_fin_ordenado(arreglo)
+        // Detect already sorted sections
+        sorted_start ← detect_sorted_start(array)
+        sorted_end ← detect_sorted_end(array)
         
-        // === FLUJO ASCENDENTE (⬅️) ===
-        i ← inicio_ordenado + 
-        MIENTRAS i < fin_ordenado HACER:
-            // Identificar grupo de elementos similares
-            grupo ← identificar_grupo(arreglo, i, umbral_similitud)
+        // === ASCENDING FLOW ===
+        i ← sorted_start + 1
+        WHILE i < sorted_end DO:
+            // Identify group of similar elements
+            group ← identify_group(array, i, similarity_threshold)
             
-            // Si el grupo debe migrar hacia la izquierda
-            SI arreglo[grupo.inicio] < arreglo[grupo.inicio - ] ENTONCES:
-                valores_grupo ← ordenar(arreglo[grupo.inicio:grupo.fin])
-                punto_inserción ← encontrar_punto_inserción(arreglo, valores_grupo[0])
+            // If group should migrate left
+            IF array[group.start] < array[group.start - 1] THEN:
+                group_values ← sort(array[group.start:group.end])
+                insertion_point ← find_insertion_point(array, group_values[0])
                 
-                // Mover grupo a su nueva posición
-                insertar_grupo(arreglo, valores_grupo, punto_inserción)
-                elementos_movidos ← VERDADERO
-            FIN SI
+                // Move group to new position
+                insert_group(array, group_values, insertion_point)
+                elements_moved ← TRUE
+            END IF
             
-            i ← grupo.fin + 
-        FIN MIENTRAS
+            i ← group.end + 1
+        END WHILE
         
-        // === FLUJO DESCENDENTE (➡️) ===
-        i ← fin_ordenado - 
-        MIENTRAS i > inicio_ordenado HACER:
-            // Identificar grupo de elementos similares
-            grupo ← identificar_grupo_reverso(arreglo, i, umbral_similitud)
+        // === DESCENDING FLOW ===
+        i ← sorted_end - 1
+        WHILE i > sorted_start DO:
+            // Identify group of similar elements
+            group ← identify_reverse_group(array, i, similarity_threshold)
             
-            // Si el grupo debe migrar hacia la derecha
-            SI arreglo[grupo.inicio] > arreglo[grupo.inicio + ] ENTONCES:
-                valores_grupo ← ordenar(arreglo[grupo.inicio:grupo.fin])
-                punto_inserción ← encontrar_punto_inserción_derecha(arreglo, valores_grupo[-])
+            // If group should migrate right
+            IF array[group.start] > array[group.start + 1] THEN:
+                group_values ← sort(array[group.start:group.end])
+                insertion_point ← find_right_insertion_point(array, group_values[-1])
                 
-                // Mover grupo a su nueva posición
-                insertar_grupo(arreglo, valores_grupo, punto_inserción)
-                elementos_movidos ← VERDADERO
-            FIN SI
+                // Move group to new position
+                insert_group(array, group_values, insertion_point)
+                elements_moved ← TRUE
+            END IF
             
-            i ← grupo.inicio - 
-        FIN MIENTRAS
-    FIN MIENTRAS
-FIN FUNCIÓN
+            i ← group.start - 1
+        END WHILE
+    END WHILE
+END FUNCTION
 ```
 
-### Comparación con Otros Algoritmos
+### Comparison with Other Algorithms
 
-GeoFlux Sort combina características de varios algoritmos clásicos:
+GeoFlux Sort combines features from several classic algorithms:
 
-| Algoritmo | Influencia en GeoFlux |
-|-----------|----------------------|
-| **Insertion Sort** | Inserción de grupos en posiciones correctas |
-| **Bubble Sort** | Flujo bidireccional de elementos |
-| **Cocktail Sort** | Pasadas alternadas en ambas direcciones |
-| **Bucket Sort** | Agrupación de elementos similares |
+| Algorithm | Influence on GeoFlux |
+|-----------|---------------------|
+| **Insertion Sort** | Insertion of groups in correct positions |
+| **Bubble Sort** | Bidirectional flow of elements |
+| **Cocktail Sort** | Alternating passes in both directions |
+| **Bucket Sort** | Grouping of similar elements |
 
-**Ventaja Principal**: Eficiencia mejorada en datos con clusters naturales de valores similares.
+**Main Advantage**: Improved efficiency on data with natural clusters of similar values.
 
 ---
 
-##  Análisis de Rendimiento
+## Performance Analysis
 
-### Complejidad Temporal
+### Time Complexity
 
-| Escenario | Complejidad | Descripción |
-|-----------|-------------|-------------|
-| **Mejor Caso** | O(n) | Arreglo ya ordenado |
-| **Caso Promedio** | O(n²) | Datos aleatorios |
-| **Peor Caso** | O(n²) | Arreglo en orden inverso |
+| Scenario | Complexity | Description |
+|----------|------------|-------------|
+| **Best Case** | O(n) | Already sorted array |
+| **Average Case** | O(n²) | Random data |
+| **Worst Case** | O(n²) | Array in reverse order |
 
-### Complejidad Espacial
+### Space Complexity
 
-- **Espacio Auxiliar**: O() - Ordenamiento in-place
-- **Espacio Total**: O(n) - Tamaño del arreglo de entrada
+- **Auxiliary Space**: O(1) - In-place sorting
+- **Total Space**: O(n) - Size of input array
 
-### Resultados de Benchmark
+### Benchmark Results
 
-Comparativa de rendimiento con el `sorted()` nativo de Python:
+Performance comparison with Python's native `sorted()`:
 
 ```
 ┌─────────┬──────────────────┬────────────────────┬──────────────────────┐
-│ Tamaño  │ GeoFlux (Random) │ GeoFlux (Ordenado) │ Python sorted()      │
+│ Size    │ GeoFlux (Random) │ GeoFlux (Sorted)   │ Python sorted()      │
 ├─────────┼──────────────────┼────────────────────┼──────────────────────┤
-│    00  │   0.00088s      │   0.0000s        │   0.000008s          │
-│    500  │   0.00669s      │   0.00009s        │   0.0000s          │
-│  ,000  │   0.086s      │   0.00089s        │   0.000076s          │
-│  ,000  │   0.0878s      │   0.00078s        │   0.00059s          │
-│  5,000  │   0.55990s      │   0.000990s        │   0.0006s          │
+│    100  │   0.000288s      │   0.000021s        │   0.000008s          │
+│    500  │   0.004669s      │   0.000094s        │   0.000032s          │
+│  1,000  │   0.021862s      │   0.000189s        │   0.000076s          │
+│  2,000  │   0.087482s      │   0.000378s        │   0.000159s          │
+│  5,000  │   0.554990s      │   0.000990s        │   0.000426s          │
 └─────────┴──────────────────┴────────────────────┴──────────────────────┘
 ```
 
-###  Observaciones
+### Observations
 
-- ✅ **Excelente** para arreglos pequeños (n < 00) o parcialmente ordenados
-- ⚠️ **Menos eficiente** que TimSort (Python nativo) para grandes conjuntos aleatorios
--  **Valor educativo** significativo para entender algoritmos de ordenamiento
--  **Ideal** para visualización debido a su naturaleza iterativa y visual
+- **Excellent** for small arrays (n < 100) or partially sorted
+- **Less efficient** than TimSort (Python native) for large random sets
+- **Educational value** significant for understanding sorting algorithms
+- **Ideal** for visualization due to its iterative and visual nature
 
 ---
 
-##  Visualización
+## Visualization
 
-Una de las características más destacadas de GeoFlux Sorter es su capacidad de visualización en tiempo real del proceso de ordenamiento.
+One of the standout features of GeoFlux Sorter is its real-time visualization capability of the sorting process.
 
-###  Características de Visualización
+### Visualization Features
 
-La animación muestra:
+The animation shows:
 
--  **Estado del Arreglo**: Barras que representan cada elemento
--  **Grupos Identificados**: Clusters de elementos similares resaltados
--  **Migración de Grupos**: Movimiento de grupos completos
--  **Progreso**: Indicador del estado del ordenamiento
+- **Array State**: Bars representing each element
+- **Identified Groups**: Clusters of similar elements highlighted
+- **Group Migration**: Movement of complete groups
+- **Progress**: Indicator of sorting status
 
-### Personalización
+### Customization
 
 ```python
 from geoflux_sorter import create_geoflux_animation
 
 create_geoflux_animation(
-    initial_data,           # Lista de datos a ordenar
-    interval=00,           # Intervalo entre frames (ms)
-    save_to_file=None       # Ruta para guardar (requiere ffmpeg)
+    initial_data,           # List of data to sort
+    interval=300,           # Interval between frames (ms)
+    save_to_file=None       # Path to save (requires ffmpeg)
 )
 ```
 
-### Ejemplo de Visualización
+### Visualization Example
 
 ```python
 import random
 from geoflux_sorter import create_geoflux_animation
 
-# Generar datos aleatorios
-datos = random.sample(range(, 0), 0)
+# Generate random data
+data = random.sample(range(1, 101), 30)
 
-# Crear animación con actualización cada 00ms
-animacion = create_geoflux_animation(datos, interval=00)
+# Create animation with update every 200ms
+animation = create_geoflux_animation(data, interval=200)
 
-# La animación se mostrará automáticamente
+# Animation will display automatically
 ```
 
-**Nota**: Para guardar animaciones como video se requiere `ffmpeg` instalado en el sistema.
+**Note**: To save animations as video, `ffmpeg` must be installed on the system.
 
 ---
 
-##  Estructura del Proyecto
+## Project Structure
 
 ```
 geoflux_sorter_project/
 │
-├──  geoflux_sorter/          # Paquete principal
-│   ├── __init__.py             # Exporta la API pública
-│   ├── algorithm.py            # Implementación del algoritmo GeoFlux Sort
-│   └── animator.py             # Sistema de visualización y animación
+├── geoflux_sorter/          # Main package
+│   ├── __init__.py             # Exports public API
+│   ├── algorithm.py            # GeoFlux Sort algorithm implementation
+│   └── animator.py             # Visualization and animation system
 │
-├──  examples/                # Ejemplos de uso
-│   ├── run_sort_example.py     # Demostración básica del algoritmo
-│   ├── run_animation_example.py # Ejemplo de visualización
-│   └── benchmark_sort.py       # Comparativa de rendimiento
+├── examples/                # Usage examples
+│   ├── run_sort_example.py     # Basic algorithm demonstration
+│   ├── run_animation_example.py # Visualization example
+│   └── benchmark_sort.py       # Performance comparison
 │
-├──  tests/                   # Suite de pruebas
-│   ├── test_algorithm.py       # Tests unitarios del algoritmo
-│   ├── benchmark_compare.py    # Benchmarks comparativos
-│   └── bottleneck_test.py      # Análisis de cuellos de botella
+├── tests/                   # Test suite
+│   ├── test_algorithm.py       # Algorithm unit tests
+│   ├── benchmark_compare.py    # Comparative benchmarks
+│   └── bottleneck_test.py      # Bottleneck analysis
 │
-├──  README.md                # Esta documentación
-├──  requirements.txt         # Dependencias del proyecto
-└──  .gitignore              # Archivos ignorados por Git
+├── README.md                # This documentation
+├── requirements.txt         # Project dependencies
+└── .gitignore              # Files ignored by Git
 ```
 
-### Módulos Principales
+### Main Modules
 
 #### `geoflux_sorter/algorithm.py`
 
-Contiene la implementación del algoritmo:
+Contains the algorithm implementation:
 
-- `geoflux_sort(arr)`: Función principal de ordenamiento
-- `geoflux_sort_generator(arr)`: Generador para seguimiento paso a paso
+- `geoflux_sort(arr)`: Main sorting function
+- `geoflux_sort_generator(arr)`: Generator for step-by-step tracking
 
 #### `geoflux_sorter/animator.py`
 
-Maneja la visualización:
+Handles visualization:
 
-- `create_geoflux_animation(data, interval, save_to_file)`: Crea animaciones
-- Soporte para exportar a video (con ffmpeg)
-
----
-
-##  Contribuir
-
-¡Las contribuciones son bienvenidas! Este proyecto está abierto a mejoras y nuevas ideas.
-
-### Cómo Contribuir
-
-.  **Fork** el proyecto
-.  **Crea una rama** para tu feature
-   ```bash
-   git checkout -b feature/nueva-caracteristica
-   ```
-. ✍️ **Realiza tus cambios** y haz commit
-   ```bash
-   git commit -m 'Añadir nueva característica'
-   ```
-.  **Push** a tu rama
-   ```bash
-   git push origin feature/nueva-caracteristica
-   ```
-5.  **Abre un Pull Request**
-
-###  Áreas de Mejora
-
-Contribuciones sugeridas:
-
-- [ ] **Optimización del Umbral**: Algoritmos más sofisticados para determinar similitud
-- [ ] **Análisis de Datos**: Caracterización automática del tipo de distribución
-- [ ] **Visualización Mejorada**: Más estilos y opciones de renderizado
-- [ ] **Tests Adicionales**: Casos edge y propiedades matemáticas
-- [ ] **Documentación**: Más ejemplos y tutoriales
-- [ ] **Paralelización**: Implementación concurrente para grandes datasets
-- [ ] **Implementación en Otros Lenguajes**: C++, Rust, JavaScript, etc.
-
-###  Código de Conducta
-
-- Se respetuoso y constructivo
-- Escribe código limpio y documentado
-- Incluye tests para nuevas funcionalidades
-- Actualiza la documentación según sea necesario
+- `create_geoflux_animation(data, interval, save_to_file)`: Creates animations
+- Support for exporting to video (with ffmpeg)
 
 ---
 
-##  Licencia
+## Contributing
 
-Este proyecto está licenciado bajo la **MIT License**.
+Contributions are welcome! This project is open to improvements and new ideas.
+
+### How to Contribute
+
+1. **Fork** the project
+2. **Create a branch** for your feature
+   ```bash
+   git checkout -b feature/new-feature
+   ```
+3. **Make your changes** and commit
+   ```bash
+   git commit -m 'Add new feature'
+   ```
+4. **Push** to your branch
+   ```bash
+   git push origin feature/new-feature
+   ```
+5. **Open a Pull Request**
+
+### Areas for Improvement
+
+Suggested contributions:
+
+- [ ] **Threshold Optimization**: More sophisticated algorithms for determining similarity
+- [ ] **Data Analysis**: Automatic characterization of distribution type
+- [ ] **Enhanced Visualization**: More styles and rendering options
+- [ ] **Additional Tests**: Edge cases and mathematical properties
+- [ ] **Documentation**: More examples and tutorials
+- [ ] **Parallelization**: Concurrent implementation for large datasets
+- [ ] **Implementation in Other Languages**: C++, Rust, JavaScript, etc.
+
+### Code of Conduct
+
+- Be respectful and constructive
+- Write clean and documented code
+- Include tests for new functionalities
+- Update documentation as needed
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
 
 ```
 MIT License
 
-Copyright (c) 05 Andrés Azcona
+Copyright (c) 2025 Andrés Azcona
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -470,18 +471,18 @@ SOFTWARE.
 
 ---
 
-##  Agradecimientos
+## Acknowledgments
 
-- Inspirado en patrones naturales de migración
-- Construido con Python y Matplotlib
-- Gracias a la comunidad de código abierto
+- Inspired by natural migration patterns
+- Built with Python and Matplotlib
+- Thanks to the open-source community
 
 ---
 
 <div align="center">
 
-**⭐ Si este proyecto te resulta útil, considera darle una estrella en GitHub**
+**If you find this project useful, please consider giving it a star on GitHub**
 
-Desarrollado con ❤️ por [Andrés Azcona](https://github.com/andresazcona)
+Developed with love by [Andrés Azcona](https://github.com/andresazcona)
 
 </div>
